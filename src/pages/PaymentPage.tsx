@@ -14,7 +14,7 @@ export default function PaymentPage() {
     const [shipping, setShipping] = useState<ShippingType>('normal')
     const [pay, setPay] = useState<PaymentMethod>('credit_card')
     const [info, setInfo] = useState<UserInfo>({
-        firstName: '', laseName: '', phone: '', address: '', email: ''
+        firstName: '', lastName: '', phone: '', address: '', email: ''
     })
 
     const shippingFee = shipping === 'express' ? 80 : 40
