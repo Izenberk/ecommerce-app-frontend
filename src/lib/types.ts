@@ -29,7 +29,7 @@ export type PaymentMethod = 'cod' | 'credit_card' | 'prompt_pay'
 
 export interface UserInfo {
     firstName: string
-    laseName: string
+    lastName: string
     phone: string
     address: string
     email: string
