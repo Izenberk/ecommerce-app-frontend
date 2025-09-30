@@ -7,6 +7,9 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { useMemo, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
+
+const logoUrl = '/paw-print.svg'
+
 function ActiveLink({
     to,
     children,
@@ -48,7 +51,10 @@ export default function NavBar() {
         <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
             <Link to="/" className="font-bold tracking-tight">
-            Pet Supply Shop
+                <div className="flex items-center gap-2">
+                <img src={logoUrl} alt="Pet Supply Shop logo" className="w-5 h-5" />
+                <span className="font-bold tracking-tight">Pet Supply Shop</span>
+                </div>
             </Link>
 
             {/* Desktop nav */}
