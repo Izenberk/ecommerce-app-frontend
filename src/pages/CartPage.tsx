@@ -2,15 +2,18 @@ import { useCartStore } from "@/store/cart"
 import { Button } from "@/components/ui/button"
 import { formatTHB } from "@/lib/format"
 import { Link } from 'react-router-dom'
+import { useShallow } from "zustand/shallow"
+
 
 export default function CartPage() {
-    const { items, increment, decrement, remove, totalPrice } = useCartStore((s) => ({
+    const { items, increment, decrement, remove, totalPrice } = useCartStore( useShallow((s) => ({
         items: s.items,
         increment: s.increment,
         decrement: s.decrement,
         remove: s.remove,
         totalPrice: s.totalPrice,
     }))
+);
 
     const list = Object.values(items)
 
