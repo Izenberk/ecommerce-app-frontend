@@ -3,6 +3,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { ThemeProvider } from "@/app/providers/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart";
+import { ShoppingCart } from "lucide-react";
 
 export default function App() {
   const qty = useCartStore((s) => s.totalQuantity())
@@ -14,7 +15,7 @@ export default function App() {
             <Link to="/" className="font-bold">HugPaw Shop</Link>
             <nav className="flex items-center gap-2">
               <Button asChild variant="ghost"><Link to="/">Products</Link></Button>
-              <Button asChild variant="ghost"><Link to="/cart">Cart ({qty})</Link></Button>
+              <Button asChild variant="ghost"><Link to="/cart"><ShoppingCart/> ({qty})</Link></Button>
               <ThemeToggle />
             </nav>
           </div>

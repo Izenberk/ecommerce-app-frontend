@@ -1,33 +1,71 @@
-import { useEffect, useState } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useState,
+} from "react";
 
-
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-        const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
-        if (saved) return saved
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        return prefersDark ? 'dark' : 'light'
-    })
-
-    useEffect(() => {
-        const root = document.documentElement
-        if (theme === 'dark') root.classList.add('dark')
-        else root.classList.remove('dark')
-    localStorage.setItem('theme', theme)
-    }, [theme])
-
-    return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>
-    )
-}
-
-import { createContext, useContext } from "react";
+type ThemeMode = "light" | "dark" | "system";
+type Resolved = "light" | "dark";
 
 interface ThemeCtx {
-    theme: 'light' | 'dark'
-    setTheme: (t: 'light' | 'dark') => void
+    theme: ThemeMode;          // user preference this session
+    resolvedTheme: Resolved;   // effective theme (after system)
+    setTheme: (t: ThemeMode) => void;
 }
 
-const ThemeContext = createContext<ThemeCtx>({ theme: 'light', setTheme: () => {} })
-// eslint-disable-next-line react-refresh/only-export-components
-export const useTheme = () => useContext(ThemeContext)
+const ThemeContext = createContext<ThemeCtx>({
+    theme: "system",
+    resolvedTheme: "light",
+    setTheme: () => {},
+});
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+    // No persistence: always start in "system"
+    const [theme, setTheme] = useState<ThemeMode>("system");
+
+    // Track OS preference (init + subscribe; supports older Safari API)
+    const [prefersDark, setPrefersDark] = useState<boolean>(() =>
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+
+    useEffect(() => {
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const update = () => setPrefersDark(mq.matches);
+
+        // keep in sync with OS changes
+        if (mq.addEventListener) mq.addEventListener("change", update);
+        else mq.addListener(update as any);
+
+        return () => {
+        if (mq.removeEventListener) mq.removeEventListener("change", update);
+        else mq.removeListener(update as any);
+        };
+    }, []);
+
+    const resolvedTheme: Resolved = useMemo(() => {
+        if (theme === "dark") return "dark";
+        if (theme === "light") return "light";
+        return prefersDark ? "dark" : "light"; // system
+    }, [theme, prefersDark]);
+
+    // Apply the resolved theme class ASAP (before paint if possible)
+    useLayoutEffect(() => {
+        const root = document.documentElement;
+        if (resolvedTheme === "dark") root.classList.add("dark");
+        else root.classList.remove("dark");
+
+        // Optional: make native UI (scrollbars, form controls) match
+        root.style.colorScheme = resolvedTheme;
+    }, [resolvedTheme]);
+
+    return (
+        <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
+        {children}
+        </ThemeContext.Provider>
+    );
+}
+
+export const useTheme = () => useContext(ThemeContext);
