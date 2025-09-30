@@ -2,6 +2,6 @@ import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
 
 export default function ThemeToggle() {
     return (
-    <AnimatedThemeToggler/>
+    <AnimatedThemeToggler className="hover:cursor-pointer"/>
     );
 }

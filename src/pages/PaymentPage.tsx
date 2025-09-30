@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from '@/components/ui/button'
 import { formatTHB } from "@/lib/format";
 import type { PaymentMethod, ShippingType, UserInfo } from "@/lib/types";
@@ -54,27 +55,57 @@ export default function PaymentPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                        <Label>Shipping Type</Label>
-                        <Select value={shipping} onValueChange={(v) => setShipping(v as ShippingType)}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="normal">Normal</SelectItem>
-                                <SelectItem value="express">Express</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="space-y-1">
-                        <Label>Payment Method</Label>
-                        <Select value={pay} onValueChange={(v) => setPay(v as PaymentMethod)}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="credit_card">Credit Card</SelectItem>
-                                <SelectItem value="cod">Cash on Delivery</SelectItem>
-                                <SelectItem value="prompt_pay">Prompt Pay</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                    {/* Shipping */}
+                    <fieldset className="space-y-2">
+                        <legend className="text-sm font-medium">Shipping Type</legend>
+                        <RadioGroup
+                        value={shipping}
+                        onValueChange={(v) => setShipping(v as ShippingType)}
+                        className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+                        >
+                        <div className="flex items-center space-x-2 rounded-md border p-3">
+                            <RadioGroupItem id="ship-normal" value="normal" />
+                            <Label htmlFor="ship-normal" className="cursor-pointer">
+                            Normal
+                            </Label>
+                        </div>
+                        <div className="flex items-center space-x-2 rounded-md border p-3">
+                            <RadioGroupItem id="ship-express" value="express" />
+                            <Label htmlFor="ship-express" className="cursor-pointer">
+                            Express
+                            </Label>
+                        </div>
+                        </RadioGroup>
+                    </fieldset>
+
+                    {/* Payment */}
+                    <fieldset className="space-y-2">
+                        <legend className="text-sm font-medium">Payment Method</legend>
+                        <RadioGroup
+                        value={pay}
+                        onValueChange={(v) => setPay(v as PaymentMethod)}
+                        className="grid grid-cols-1 gap-2"
+                        >
+                        <div className="flex items-center space-x-2 rounded-md border p-3">
+                            <RadioGroupItem id="pay-cc" value="credit_card" />
+                            <Label htmlFor="pay-cc" className="cursor-pointer">
+                            Credit Card
+                            </Label>
+                        </div>
+                        <div className="flex items-center space-x-2 rounded-md border p-3">
+                            <RadioGroupItem id="pay-cod" value="cod" />
+                            <Label htmlFor="pay-cod" className="cursor-pointer">
+                            Cash on Delivery
+                            </Label>
+                        </div>
+                        <div className="flex items-center space-x-2 rounded-md border p-3">
+                            <RadioGroupItem id="pay-pp" value="prompt_pay" />
+                            <Label htmlFor="pay-pp" className="cursor-pointer">
+                            Prompt Pay
+                            </Label>
+                        </div>
+                        </RadioGroup>
+                    </fieldset>
                 </div>
             </div>
 

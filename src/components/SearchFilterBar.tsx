@@ -52,12 +52,19 @@ export default function SearchFilterBar() {
 
             <div className="space-y-1">
                 <Label>Price Range</Label>
-                <div className="px-1">
-                    <Slider min={0} max={10000} step={50} value={[filter.priceMin]}
-                        onValueChange={([v]) => setFilter({ priceMin: v })} />
-                    <Slider min={0} max={10000} step={50} value={[filter.priceMax]}
-                        onValueChange={([v]) => setFilter({ priceMax: v })} />
-                    <p className="text-xs text-muted-foreground mt-1">{filter.priceMin} - {filter.priceMax} THB</p>
+                <div className="px-1 my-2">
+                    <Slider
+                        min={0}
+                        max={2000}
+                        step={50}
+                        value={[filter.priceMin, filter.priceMax]}
+                        onValueChange={([min, max]) =>
+                        setFilter({ priceMin: min, priceMax: max })
+                        }
+                    />
+                    <p className="text-xs text-muted-foreground mt-2">
+                        {filter.priceMin} – {filter.priceMax} THB
+                    </p>
                 </div>
             </div>
         </div>

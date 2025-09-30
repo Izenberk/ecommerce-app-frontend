@@ -22,7 +22,7 @@ const INITIAL_FILTER: ProductFilter = {
     byId: '',
     type: 'all',
     priceMin: 0,
-    priceMax: 10_000,
+    priceMax: 2000,
     status: 'all',
 } as const;
 
