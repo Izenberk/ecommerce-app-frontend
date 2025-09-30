@@ -2,7 +2,6 @@ import { useCartStore } from "@/store/cart";
 import { useState } from 'react'
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from '@/components/ui/button'
 import { formatTHB } from "@/lib/format";
