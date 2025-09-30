@@ -7,7 +7,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'collar',
         price: 249,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/cat_collar.png'
     },
     {
         id: 'P-1002',
@@ -15,7 +15,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'collar',
         price: 299,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/dog_collar.png'
     },
     {
         id: 'P-1003',
@@ -23,7 +23,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'feeder',
         price: 1890,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/feeder_2L.png'
     },
     {
         id: 'P-1004',
@@ -31,7 +31,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'feeder',
         price: 1890,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/feeder_4L.png'
     },
     {
         id: 'P-1005',
@@ -39,7 +39,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'toy',
         price: 199,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/squeaky_mouse.png'
     },
     {
         id: 'P-1006',
@@ -47,7 +47,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'toy',
         price: 249,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/dog_chewy.png'
     },
     {
         id: 'P-1007',
@@ -55,7 +55,7 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'accessory',
         price: 449,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/cat_harness.png'
     },
     {
         id: 'P-1008',
@@ -63,6 +63,6 @@ export const MOCK_PRODUCTS: Product[] = [
         type: 'accessory',
         price: 499,
         status: 'active',
-        thumbnailUrl: ''
+        thumbnailUrl: '/images/dog_harness.png'
     },
 ]

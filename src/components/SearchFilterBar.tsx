@@ -6,7 +6,8 @@ import { Slider } from "@/components/ui/slider";
 import type { ProductStatus, ProductType } from "@/lib/types";
 
 export default function SearchFilterBar() {
-    const { filter, setFilter } = useProductsStore((s) => ({ filter: s.filter, setFilter: s.setFilter }))
+    const filter    = useProductsStore(s => s.filter);
+    const setFilter = useProductsStore(s => s.setFilter);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3">

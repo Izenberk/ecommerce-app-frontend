@@ -1,19 +1,20 @@
-import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
-import type { Product, ProductFilter } from '@/lib/types'
-import { MOCK_PRODUCTS } from '@/data/mockProducts'
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import type { Product, ProductFilter } from '@/lib/types';
+import { MOCK_PRODUCTS } from '@/data/mockProducts';
+import { shallow } from 'zustand/shallow';
 
 interface ProductState {
-    all: Product[]
-    filter: ProductFilter
-    pageSize: number
-    visibleCount: number
-    setFilter: (partial: Partial<ProductFilter>) => void
-    resetFilter: () => void
-    filtered: () => Product[]
-    visible: () => Product[]
-    loadMore: () => void
-    resetPagination: () => void
+    all: Product[];
+    filter: ProductFilter;
+    pageSize: number;
+    visibleCount: number;
+    setFilter: (partial: Partial<ProductFilter>) => void;
+    resetFilter: () => void;
+    filtered: () => Product[];
+    visible: () => Product[];
+    loadMore: () => void;
+    resetPagination: () => void;
 }
 
 const INITIAL_FILTER: ProductFilter = {
@@ -23,38 +24,52 @@ const INITIAL_FILTER: ProductFilter = {
     priceMin: 0,
     priceMax: 10_000,
     status: 'all',
+} as const;
+
+function normalizePriceRange(
+    prev: ProductFilter,
+    patch: Partial<ProductFilter>
+    ): Pick<ProductFilter, "priceMin" | "priceMax"> {
+    const min = patch.priceMin ?? prev.priceMin;
+    const max = patch.priceMax ?? prev.priceMax;
+    // Ensure min <= max; swap if needed
+    return min <= max ? { priceMin: min, priceMax: max } : { priceMin: max, priceMax: min };
 }
 
 export const useProductsStore = create<ProductState>() (
     devtools((set, get) => ({
         all: MOCK_PRODUCTS,
-        filter: INITIAL_FILTER,
+        filter: { ...INITIAL_FILTER },
         pageSize: 12,
         visibleCount: 12,
 
         setFilter: (partial) => {
-            set({ filter: { ...get().filter, ...partial } })
-            // whenever filter changes, reset pagination to top
-            set({ visibleCount: get().pageSize })
+            const prev = get().filter;
+
+            // If price bounds were touched, keep the range valid
+            let next: ProductFilter;
+            if ("priceMin" in partial || "priceMax" in partial) {
+                const fixed = normalizePriceRange(prev, partial);
+                next = { ...prev, ...partial, ...fixed };
+            } else {
+                next = { ...prev, ...partial };
+            }
+
+            // Avoid no-op updates (prevents unnecessary re-renders)
+            if (shallow(prev, next)) return;
+
+            // Single set to prevent double notifications
+            set({
+                filter: next,
+                visibleCount: get().pageSize, // reset pagination whenever the filter actually changes
+            });
         },
 
-        resetFilter: () => set({ filter: INITIAL_FILTER, visibleCount: INITIAL_FILTER ? 12 : get().pageSize }),
-
-        filtered: () => {
-            const { all, filter } = get()
-            return all.filter((p) => {
-                const matchesQuery = filter.query
-                    ? p.name.toLowerCase().includes(filter.query.toLowerCase())
-                    : true
-                const matchesId = filter.byId ? p.id.toLowerCase().includes(filter.byId.toLowerCase()) : true
-                const matchesType = filter.type === 'all' ? true : p.type === filter.type
-                const matchesPrice = p.price >= filter.priceMin && p.price <= filter.priceMax
-                const matchesStatus = filter.status === 'all' ? true : p.status === filter.status
-                return matchesQuery && matchesId && matchesType && matchesPrice && matchesStatus
-            })
-        },
-
-        visible: () => get().filtered().slice(0, get().visibleCount),
+        resetFilter: () =>
+            set({
+                filter: { ...INITIAL_FILTER },
+                visibleCount: get().pageSize, // ✅ fix: no magic number, uses current pageSize
+            }),
 
         loadMore: () => set({ visibleCount: get().visibleCount + get().pageSize }),
 
