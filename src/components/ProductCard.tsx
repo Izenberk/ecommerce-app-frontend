@@ -15,8 +15,8 @@ export default function ProductCard({ p }: { p: Product }) {
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">{formatTHB(p.price)}</CardContent>
             <CardFooter className="mt-auto flex items-center gap-2">
-                <Button variant="secondary">More Detail</Button>
-                <Button onClick={() => add(p)}>Add to Cart</Button>
+                <Button variant="secondary" className="hover: cursor-pointer">More Detail</Button>
+                <Button className="hover: cursor-pointer" onClick={() => add(p)}>Add to Cart</Button>
             </CardFooter>
         </Card>
     )
