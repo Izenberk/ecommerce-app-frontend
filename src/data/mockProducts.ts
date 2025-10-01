@@ -65,4 +65,12 @@ export const MOCK_PRODUCTS: Product[] = [
         status: 'active',
         thumbnailUrl: '/images/dog_harness.png'
     },
+    {
+        id: 'P-1009',
+        name: 'Fountain Water Dispenser',
+        type: 'feeder',
+        price: 799,
+        status: 'active',
+        thumbnailUrl: '/images/fountain_dispenser.png'
+    },
 ]

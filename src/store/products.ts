@@ -40,8 +40,8 @@ export const useProductsStore = create<ProductState>() (
     devtools((set, get) => ({
         all: MOCK_PRODUCTS,
         filter: { ...INITIAL_FILTER },
-        pageSize: 12,
-        visibleCount: 12,
+        pageSize: 8,
+        visibleCount: 8,
 
         setFilter: (partial) => {
             const prev = get().filter;
@@ -74,5 +74,8 @@ export const useProductsStore = create<ProductState>() (
         loadMore: () => set({ visibleCount: get().visibleCount + get().pageSize }),
 
         resetPagination: () => set({ visibleCount: get().pageSize }),
+
+        // handy guard to stop eager loading
+        hasMore: () => get().visibleCount < get().filtered().length,
     }))
 )
