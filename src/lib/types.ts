@@ -25,6 +25,8 @@ export interface CartItem {
     quantity: number
 }
 
+export type CartItemsMap = Record<string, CartItem>;
+
 export type ShippingType = 'normal' | 'express'
 export type PaymentMethod = 'cod' | 'credit_card' | 'prompt_pay'
 
@@ -34,4 +36,24 @@ export interface UserInfo {
     phone: string
     address: string
     email: string
+}
+
+export interface OrderItem {
+    id: string;
+    name: string;
+    unitPrice: number;
+    qty: number;
+    imageUrl?: string;
+}
+
+export interface OrderSummary {
+    id: string;
+    createdAt: string;
+    info: UserInfo;
+    pay: PaymentMethod;
+    shipping: ShippingType;
+    items: OrderItem[];
+    subtotal: number;
+    shippingFee: number;
+    grandTotal: number;
 }

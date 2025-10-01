@@ -81,7 +81,7 @@ export default function CartPage() {
                 variant="outline"
                 onClick={() => {
                     setConfirmOpen(false);
-                    navigate("/"); // adjust to your shop route
+                    navigate("/");
                 }}
                 >
                 Go to Shop
