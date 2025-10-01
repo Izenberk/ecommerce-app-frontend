@@ -2,12 +2,13 @@ export type ProductStatus = 'active' | 'archived' | 'out_of_stock';
 export type ProductType = 'collar' | 'feeder' | 'toy' | 'accessory';
 
 export interface Product {
-    id: string
-    name: string
-    type: ProductType
-    price: number
-    status: ProductStatus
-    thumbnailUrl: string
+    id: string;
+    name: string;
+    type: ProductType;
+    price: number;
+    status: ProductStatus;
+    thumbnailUrl: string;
+    description?: string;
 }
 
 export interface ProductFilter {
