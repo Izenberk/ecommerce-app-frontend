@@ -25,7 +25,7 @@ export const MOCK_PRODUCTS: Product[] = [
         id: 'P-1003',
         name: 'Smart Feeder 2L',
         type: 'feeder',
-        price: 1890,
+        price: 1690,
         status: 'active',
         thumbnailUrl: '/images/feeder_2L.png',
         description:
